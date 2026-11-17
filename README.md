@@ -2,6 +2,9 @@
 
 A small status line for [Claude Code](https://docs.claude.com/en/docs/claude-code) that shows your plan limits, context, cost and session state under the prompt.
 
+
+<img src="./example/example.png" alt="preview">
+
 ```
 Session ━━━───────── 27% ↓ 2h 51m | Weekly ━━━━━━━━━─── 73% ↑ R:Thu 6pm | Context ━━━━──────── 35% | $38.75 | +142 -37 | Opus | Effort: XHigh | main
 ⚡fast | think
@@ -13,16 +16,16 @@ One Python file, standard library only. It reads the JSON Claude Code already se
 
 **Line 1**
 
-| Part | Source |
-|---|---|
-| `Session` bar, %, pace, time to reset | `rate_limits.five_hour` |
-| `Weekly` bar, %, pace, reset day (`R:Thu 6pm`, or a countdown in the last 24h) | `rate_limits.seven_day` |
-| `Context` bar and % | `context_window.used_percentage` |
-| `$38.75` session cost (API-equivalent) | `cost.total_cost_usd` |
-| `+142 -37` lines changed | `cost.total_lines_added` / `total_lines_removed` |
-| Model family (`Opus`) | `model.id` |
-| `Effort: XHigh` | `effort.level` |
-| Git branch | `git branch --show-current` in the session folder |
+| Part                                                                           | Source                                            |
+| ------------------------------------------------------------------------------ | ------------------------------------------------- |
+| `Session` bar, %, pace, time to reset                                          | `rate_limits.five_hour`                           |
+| `Weekly` bar, %, pace, reset day (`R:Thu 6pm`, or a countdown in the last 24h) | `rate_limits.seven_day`                           |
+| `Context` bar and %                                                            | `context_window.used_percentage`                  |
+| `$38.75` session cost (API-equivalent)                                         | `cost.total_cost_usd`                             |
+| `+142 -37` lines changed                                                       | `cost.total_lines_added` / `total_lines_removed`  |
+| Model family (`Opus`)                                                          | `model.id`                                        |
+| `Effort: XHigh`                                                                | `effort.level`                                    |
+| Git branch                                                                     | `git branch --show-current` in the session folder |
 
 **Line 2** (only what is on): `⚡fast` mode, `think`, and a `[CAVEMAN]` badge if you use the caveman plugin.
 
@@ -82,12 +85,12 @@ The temporary `CLAUDE_CONFIG_DIR` keeps these test numbers out of your real cach
 
 Edit the constants at the top of `usage-statusline.py`:
 
-| Constant | Default | What it changes |
-|---|---|---|
-| `BAR_CELLS` | `12` | bar width in characters |
-| `TEAL`, `GOLD`, `RED` | 256-colour codes | bar colours; thresholds (50 / 80) are in `level_color()` |
-| `SEP` | `" \| "` | separator between parts |
-| `EFFORT_COLOURS` | yellow for XHigh, red for Max | colour per effort level |
+| Constant              | Default                       | What it changes                                          |
+| --------------------- | ----------------------------- | -------------------------------------------------------- |
+| `BAR_CELLS`           | `12`                          | bar width in characters                                  |
+| `TEAL`, `GOLD`, `RED` | 256-colour codes              | bar colours; thresholds (50 / 80) are in `level_color()` |
+| `SEP`                 | `" \| "`                      | separator between parts                                  |
+| `EFFORT_COLOURS`      | yellow for XHigh, red for Max | colour per effort level                                  |
 
 To hide a part, delete its `line1.append(...)` / `line2.append(...)` block in `main()`.
 
@@ -111,13 +114,13 @@ No restart needed; the next repaint uses the new version.
 
 ## Troubleshooting
 
-| Symptom | Likely cause |
-|---|---|
-| Status line is blank | Wrong path in `command`, or `python3` not on `PATH`. Run the command from the settings by hand with `echo '{}' \|` in front of it. |
-| No `Session` / `Weekly` bars | API-key login (no plan limits), or the session has not had its first reply yet and there is no cache. |
-| Numbers look old | They come from the cache until the current session's first reply; they refresh on the next reply. |
-| No branch | The session folder is not a git repo, or `git` is not installed. |
-| Garbled bars or arrows | Your terminal font lacks the box-drawing or arrow glyphs; switch to a font that has them. |
+| Symptom                      | Likely cause                                                                                                                       |
+| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| Status line is blank         | Wrong path in `command`, or `python3` not on `PATH`. Run the command from the settings by hand with `echo '{}' \|` in front of it. |
+| No `Session` / `Weekly` bars | API-key login (no plan limits), or the session has not had its first reply yet and there is no cache.                              |
+| Numbers look old             | They come from the cache until the current session's first reply; they refresh on the next reply.                                  |
+| No branch                    | The session folder is not a git repo, or `git` is not installed.                                                                   |
+| Garbled bars or arrows       | Your terminal font lacks the box-drawing or arrow glyphs; switch to a font that has them.                                          |
 
 ## Privacy
 
